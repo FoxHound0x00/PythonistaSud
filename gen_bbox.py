@@ -2,7 +2,7 @@
 
 import cv2
 import os
-str = "0 0.5 0.5 1 1"
+str = "0 0.5 0.5 1.0 1.0"
 for file in os.listdir():
         if file.endswith(".jpg"):
                 f1 = file.rsplit('.',1)[0] + '.txt'
