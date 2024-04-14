@@ -2,7 +2,7 @@
 
 
 
-Changes to be made :
+Changes to be made to the simple conv(correlation):
 
 
-Add stride , padding , dilation to the convolutions code.
+Add stride, padding, dilation to the convolutions code.
