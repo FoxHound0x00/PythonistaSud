@@ -1,3 +1,5 @@
+#------------------------------------------------ Approximation ---------------------
+
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics.pairwise import rbf_kernel
@@ -38,4 +40,47 @@ plt.yscale('log')  # Log scale for better visualization of error
 plt.axhline(y=0.01, color='r', linestyle='--', label='Target Error = 0.01')
 plt.legend()
 plt.grid()
+plt.show()
+
+
+#---------------- Visualization ----------------------------
+
+import matplotlib.pyplot as plt
+import numpy as np
+from   sklearn.metrics.pairwise import rbf_kernel
+from   sklearn.datasets import make_s_curve
+
+
+# -----------------------------------------------------------------------------
+
+fig, axes = plt.subplots(1, 7)
+fig.set_size_inches(20, 4)
+font = {'fontname': 'arial', 'fontsize': 9}
+
+N    = 1000
+D    = 3
+X, t = make_s_curve(N, noise=0.1)
+X    = X[t.argsort()]
+# The RBF kernel is the Gaussian kernel if we let \gamma = 1 / (2 \sigma^2).
+K    = rbf_kernel(X, gamma=1)
+
+axes[0].imshow(K, cmap=plt.cm.Blues)
+axes[0].set_title(r'$K(x, p) = exp(-||x - p||^2)$', **font)
+axes[0].set_xticks([])
+axes[0].set_yticks([])
+
+for R, ax in zip([1, 10, 100, 1000, 10000, 100000], axes[1:]):
+    W    = np.random.normal(loc=0, scale=1, size=(R, D))
+    b    = np.random.uniform(0, 2*np.pi, size=R)
+    B    = np.repeat(b[:, np.newaxis], N, axis=1)
+    norm = 1./ np.sqrt(R)
+    Z    = norm * np.sqrt(2) * np.cos(W @ X.T + B)
+    ZZ   = Z.T@Z
+
+    ax.imshow(ZZ, cmap=plt.cm.Blues)
+    ax.set_title(r'$K(x, p) = exp(-||x - p||^2)$, $R=%s$' % R, **font)
+    ax.set_xticks([])
+    ax.set_yticks([])
+
+plt.tight_layout()
 plt.show()
